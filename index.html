@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FaceID — Facial Recognition Demo</title>
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Firebase v8 SDKs (Compatible with app.js) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+  <!-- Face-api.js & Main App -->
+  <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">F</span> FaceID <span class="tag">DEMO</span></a>
+    <div id="authStatus" class="auth-status">Not signed in</div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <p class="eyebrow">BROWSER-BASED COMPUTER VISION</p>
+      <h1>Facial Recognition <span>Studio</span></h1>
+      <p class="intro">Register faces with permission, then compare a live camera face against your saved profiles.</p>
+      <div class="notice"><strong>Privacy:</strong> Face descriptors are biometric data. This demo stores them in Firebase Firestore. Register only people who have explicitly agreed. Do not use this demo for security, legal, financial, or other high-stakes decisions.</div>
+    </section>
+
+    <section class="grid">
+      <article class="panel auth-panel">
+        <div class="panel-head">
+          <div><p class="eyebrow">ACCOUNT</p><h2>Connect your workspace</h2></div>
+          <span class="step">01</span>
+        </div>
+        <p class="muted">Create an account or sign in to manage your own face records.</p>
+        <label for="email">Email</label>
+        <input id="email" type="email" autocomplete="email" placeholder="you@example.com">
+        <label for="password">Password</label>
+        <input id="password" type="password" autocomplete="current-password" placeholder="At least 6 characters">
+        <div class="button-row">
+          <button id="signUpBtn" class="button secondary">Create account</button>
+          <button id="signInBtn" class="button primary">Sign in</button>
+        </div>
+        <button id="signOutBtn" class="button ghost hidden">Sign out</button>
+        <p id="authMessage" class="message" role="status"></p>
+      </article>
+
+      <article class="panel camera-panel">
+        <div class="panel-head">
+          <div><p class="eyebrow">LIVE CAMERA</p><h2>Scan a face</h2></div>
+          <span class="step">02</span>
+        </div>
+        <div class="camera-wrap">
+          <video id="video" autoplay muted playsinline></video>
+          <div id="cameraPlaceholder" class="camera-placeholder">
+            <div class="scan-icon">⌗</div>
+            <p>Camera preview will appear here</p>
+            <small>Use a well-lit space and face the camera.</small>
+          </div>
+          <div class="camera-overlay">
+            <span id="cameraState" class="state-dot">Camera off</span>
+            <span id="faceCount">0 faces</span>
+          </div>
+        </div>
+        <div class="button-row">
+          <button id="startCameraBtn" class="button primary">Start camera</button>
+          <button id="stopCameraBtn" class="button secondary" disabled>Stop camera</button>
+        </div>
+        <p id="scanMessage" class="message" role="status">Load the models, sign in, then start the camera.</p>
+        <div class="match-box">
+          <span class="match-label">MATCH RESULT</span>
+          <strong id="matchResult">Not scanning</strong>
+          <span id="matchDetail" class="muted">A match is an estimate, not proof of identity.</span>
+        </div>
+      </article>
+
+      <article class="panel register-panel">
+        <div class="panel-head">
+          <div><p class="eyebrow">FACE RECORDS</p><h2>Register a person</h2></div>
+          <span class="step">03</span>
+        </div>
+        <p class="muted">Keep one face clearly visible in the camera, then save its face descriptor under a name.</p>
+        <label for="personName">Display name</label>
+        <input id="personName" maxlength="60" placeholder="e.g. My test profile">
+        <button id="registerBtn" class="button primary full" disabled>Capture &amp; register face</button>
+        <p id="registerMessage" class="message" role="status"></p>
+        <div class="records-head">
+          <h3>Saved profiles</h3>
+          <button id="refreshBtn" class="text-button">Refresh</button>
+        </div>
+        <div id="profilesList" class="profiles-list">
+          <p class="muted">Sign in to load your profiles.</p>
+        </div>
+        <p class="tiny">Profiles are secured using Firebase Firestore Security Rules.</p>
+      </article>
+    </section>
+    <footer>
+      <span>FaceID Demo · Built with JavaScript, face-api.js and Firebase</span>
+      <span>Educational use only</span>
+    </footer>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+</body>
+</html>
